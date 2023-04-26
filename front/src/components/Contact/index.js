@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import Loader from 'react-loaders'
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import { useRef } from 'react'
 import emailjs from '@emailjs/browser'
 import AnimatedLetters from '../AnimatedLetters'
@@ -12,9 +11,14 @@ const Contact = () => {
 
   const sendEmail = (e) => {
     e.preventDefault()
-
+    console.log(e)
     emailjs
-      .sendForm('gmail', 'template_277x3bx', form.current, 'tJe-XJ4huZ9abA0cL')
+      .sendForm(
+        'service_ccu373p',
+        'template_277x3bx',
+        form.current,
+        'tJe-XJ4huZ9abA0cL'
+      )
       .then(
         (result) => {
           alert('Message successfully sent!')

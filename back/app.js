@@ -1,11 +1,9 @@
 const express = require("express");
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const session = require("express-session");
-const bcrypt = require("bcryptjs");
+const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
 const cookieParser = require("cookie-parser");
+const session = require("express-session");
 const morgan = require("morgan");
 const dotenv = require("dotenv");
 
@@ -20,37 +18,26 @@ const gameRouter = require("./routes/game");
 const { sequelize } = require("./models");
 
 const app = express();
+app.use(cors());
+app.use(express.json()); // JSON 파싱
 
-app.use(
-  cors({
-    origin: "http://localhost:3000", // React 앱의 URL
-    credentials: true,
-  })
-);
-
-app.use(express.json());
+// Middleware
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: false }));
-
+app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(
-  session({ secret: "secret-key", resave: false, saveUninitialized: false })
-);
-app.use(passport.initialize());
-app.use(passport.session());
-
-// Initialize Passport
-passport.use(
-  new LocalStrategy((username, password, done) => {
-    // Sequelize를 사용하여 사용자 조회
+  session({
+    resave: false,
+    saveUninitialized: false,
+    secret: process.env.COOKIE_SECRET,
+    cookie: {
+      httpOnly: true,
+      secure: false,
+    },
   })
 );
-
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-passport.deserializeUser((id, done) => {
-  // Sequelize를 사용하여 사용자 조회
-});
 
 const PORT = process.env.PORT;
 app.set("port", PORT);
@@ -67,20 +54,6 @@ sequelize
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
-
-app.use(express.static(path.join(__dirname, "public")));
-app.use(cookieParser(process.env.COOKIE_SECRET));
-app.use(
-  session({
-    resave: false,
-    saveUninitialized: false,
-    secret: process.env.COOKIE_SECRET,
-    cookie: {
-      httpOnly: true,
-      secure: false,
-    },
-  })
-);
 
 app.use("/main", mainRouter);
 app.use("/auth", authRouter);

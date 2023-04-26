@@ -91,6 +91,18 @@
       }
     }
 
+    a.auth-link {
+      &:after {
+        content: 'AUTH';
+      }
+    }
+
+    a.game-link {
+      &:after {
+        content: 'GAME';
+      }
+    }
+
     a.portfolio-link {
       &:after {
         content: 'PORTFOLIO';

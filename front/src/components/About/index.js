@@ -1,26 +1,10 @@
 import { useEffect, useState } from 'react'
-import {
-  faAngular,
-  faCss3,
-  faGitAlt,
-  faHtml5,
-  faJsSquare,
-  faReact,
-} from '@fortawesome/free-brands-svg-icons'
 import Loader from 'react-loaders'
 import AnimatedLetters from '../AnimatedLetters'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './index.scss'
 
 const About = () => {
   const [letterClass, setLetterClass] = useState('text-animate')
-
-  // useEffect(() => {
-  //   // 3초 동안 모든 hover 애니메이션을 그려주면서 페이지를 로딩한다.
-  //   return setTimeout(() => {
-  //     setLetterClass('text-animate-hover')
-  //   }, 3000)
-  // }, [])
 
   return (
     <>

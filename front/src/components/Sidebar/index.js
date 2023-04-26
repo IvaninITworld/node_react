@@ -1,7 +1,5 @@
 import './index.scss'
 import { useState } from 'react'
-import LogoS from '../../assets/images/logo-s.png'
-import LogoSubtitle from '../../assets/images/logo_sub.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faLinkedin,
@@ -17,6 +15,7 @@ import {
   faBars,
   faClose,
   faGamepad,
+  faDirections,
 } from '@fortawesome/free-solid-svg-icons'
 import { Link, NavLink } from 'react-router-dom'
 
@@ -26,7 +25,7 @@ const Sidebar = () => {
   return (
     <div className="nav-bar">
       <Link className="logo" to="/" onClick={() => setShowNav(false)}>
-        <FontAwesomeIcon icon={faGamepad} size="3x" color="#4d4d4e" />
+        <FontAwesomeIcon icon={faHome} size="3x" color="#4d4d4e" />
       </Link>
       <nav className={showNav ? 'mobile-show' : ''}>
         <NavLink
@@ -59,6 +58,28 @@ const Sidebar = () => {
         >
           <div className="linkBox">
             <FontAwesomeIcon icon={faEnvelope} color="#4d4d4e" />
+          </div>
+        </NavLink>
+
+        <NavLink
+          activeclassname="active"
+          className="auth-link"
+          to="/auth/login"
+          onClick={() => setShowNav(false)}
+        >
+          <div className="linkBox">
+            <FontAwesomeIcon icon={faDirections} color="#4d4d4e" />
+          </div>
+        </NavLink>
+
+        <NavLink
+          activeclassname="active"
+          className="game-link"
+          to="/game"
+          onClick={() => setShowNav(false)}
+        >
+          <div className="linkBox">
+            <FontAwesomeIcon icon={faGamepad} color="#4d4d4e" />
           </div>
         </NavLink>
 
