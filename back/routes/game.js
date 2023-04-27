@@ -1,7 +1,7 @@
 const express = require("express");
-const { verifyToken } = require("../controllers/middlewares");
+const { verifyToken } = require("../controllers/middlewaresController");
 // const { apiLimiter } = require("../controllers/middlewares");
-const { gearPage, gameResultUpdate } = require("../controllers/game");
+const { gearPage, gameResultUpdate } = require("../controllers/gameController");
 
 const router = express.Router();
 

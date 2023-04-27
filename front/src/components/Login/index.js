@@ -3,7 +3,10 @@ import Loader from 'react-loaders'
 import { useRef } from 'react'
 import AnimatedLetters from '../AnimatedLetters'
 import { Link } from 'react-router-dom'
-import axios from '../../utils/axios'
+// import axios from '../../utils/axios'
+import { useDispatch } from 'react-redux'
+import { asyncUpFetchLogin } from '../../features/loginSlice'
+// import { login } from '../../store/actions/authActions'
 import './index.scss'
 
 const Login = () => {
@@ -14,6 +17,7 @@ const Login = () => {
   const [buttonDisabled, setButtonDisabled] = useState(true)
   const [letterClass, setLetterClass] = useState('text-animate')
   const form = useRef()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (emailValid && passwordValid) {
@@ -44,40 +48,16 @@ const Login = () => {
     }
   }
 
-  const login = (e) => {
+  const loginHandler = (e) => {
     e.preventDefault()
-    console.log('send login request')
 
-    let email = e.target.email.value
-    let password = e.target.password.value
-
-    console.log(email, password)
-
-    axios
-      .post(`/auth/login`, {
-        method: 'POST',
-        body: {
-          email: email,
-          password: password,
-        },
-      })
-      .then((response) => {
-        console.log(response)
-        if (response.status === 200) {
-          window.location.href = '/game'
-          window.localStorage.setItem('token', response.data.token)
-          console.log('성공 후', response)
-        } else {
-          alert(
-            `Failed to register, please try again. reason : ${response.data.message}`
-          )
-        }
-      })
-      .catch((error) => {
-        alert(
-          `Failed to register, please try again. reason : ${error.response.data.message}`
-        )
-      })
+    try {
+      console.log('button clikced')
+      dispatch(asyncUpFetchLogin({ email, password }))
+      // window.location.href = '/game'
+    } catch (error) {
+      alert(`Failed to log in, please try again. reason: ${error.message}`)
+    }
   }
 
   return (
@@ -94,7 +74,7 @@ const Login = () => {
           <p>Login before joing the game</p>
 
           <div className="login-form">
-            <form ref={form} onSubmit={login}>
+            <form ref={form} onSubmit={loginHandler}>
               <ul>
                 <li>
                   <input

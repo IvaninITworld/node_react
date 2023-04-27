@@ -6,7 +6,7 @@ const {
   joinServiceNickCheck,
   joinService,
   loginService,
-} = require("../controllers/auth");
+} = require("../controllers/authController");
 
 const router = express.Router();
 

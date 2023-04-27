@@ -1,6 +1,6 @@
 const express = require("express");
-const { verifyToken } = require("../controllers/middlewares");
-const { getContact } = require("../controllers/contact.js");
+const { verifyToken } = require("../controllers/middlewaresController");
+const { getContact } = require("../controllers/contactController.js");
 
 const router = express.Router();
 
