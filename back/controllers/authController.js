@@ -112,8 +112,8 @@ exports.joinService = async (req, res, next) => {
 // 로그인
 exports.loginService = async (req, res, next) => {
   console.log("POST /auth/login 진입");
-  console.log(req.body);
-  const { email, password } = req.body.body;
+  console.log("req.body : ", req.body);
+  const { email, password } = req.body;
   try {
     const exUser = await User.findOne({ where: { email } });
     if (!exUser) {
