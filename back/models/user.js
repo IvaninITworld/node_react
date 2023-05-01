@@ -21,7 +21,7 @@ module.exports = class User extends Sequelize.Model {
           type: Sequelize.STRING(100),
           allowNull: false,
         },
-        victory: {
+        win: {
           type: Sequelize.INTEGER(40),
           allowNull: false,
           defaultValue: 0,
@@ -54,16 +54,10 @@ module.exports = class User extends Sequelize.Model {
     );
   }
 
-  //   static associate(db) {
-  //     db.User.hasMany(db.Spaceship);
-  //     db.User.hasMany(db.Scoredata);
-  //     db.User.hasMany(db.Post, {
-  //       onDelete: "CASCADE",
-  //       hooks: true,
-  //     });
-  //     db.User.hasMany(db.Postlike, {
-  //       onDelete: "CASCADE",
-  //       hooks: true,
-  //     });
-  //   }
+  static associate(db) {
+    db.User.hasOne(db.Room, {
+      foreignKey: "OwnerId",
+    });
+    db.User.hasMany(db.Chat);
+  }
 };

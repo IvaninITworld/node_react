@@ -31,7 +31,7 @@ frontend/
 |   |   |   |-- index.js
 |   |   |   |-- index.scss
 |   |-- features/
-|   |   |-- loginSlice.js
+|   |   |-- userSlice.js
 |   |-- store/
 |   |   |-- index.js
 |   |   |-- actions/
