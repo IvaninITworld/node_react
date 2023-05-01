@@ -19,3 +19,5 @@ root.render(
 )
 
 reportWebVitals()
+
+export { socket } from './socket'

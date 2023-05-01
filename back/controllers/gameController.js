@@ -1,20 +1,19 @@
 const { resStatus } = require("../lib/responseStatus");
 const { User, Spaceship, Scoredata } = require("../models");
 
-// gear 페이지 조회(닉네임, 현재 우주선, 보유한 우주선 목록)
-exports.gearPage = async (req, res, next) => {
+exports.gamePage = async (req, res, next) => {
   try {
-    console.log("GET /game/gear 진입");
+    console.log("GET /game 진입");
     console.log("req.decoded.type : ", req.decoded.type);
     const user = await User.findOne({
       where: { id: req.decoded.id },
-      attributes: ["nick", "currentShipImage"],
-      include: [
-        {
-          model: Spaceship,
-          attributes: ["shipName"],
-        },
-      ],
+      attributes: ["nick", "win", "lose"],
+      // include: [
+      //   {
+      //     model: Spaceship,
+      //     attributes: ["shipName"],
+      //   },
+      // ],
     });
 
     res.status(resStatus.success.code).json({
@@ -32,33 +31,25 @@ exports.gearPage = async (req, res, next) => {
 // game 종료 후 update
 exports.gameResultUpdate = async (req, res, next) => {
   console.log("PUT /game/update 진입");
-  const { gold, usedship, score } = req.headers;
+  const { win, lose } = req.headers;
   try {
-    const oriGold = await User.findOne({
+    const oriWin = await User.findOne({
       where: { id: req.decoded.id },
-      attributes: ["gold"],
+      attributes: ["win"],
     });
 
-    const resultGold = parseInt(oriGold.dataValues.gold) + parseInt(gold);
-    const realScore = parseInt(score);
+    const oriLose = await User.findOne({
+      where: { id: req.decoded.id },
+      attributes: ["lose"],
+    });
+
+    const resultWin = parseInt(oriWin.dataValues.win) + parseInt(win);
+    const resultLose = parseInt(oriLose.dataValues.lose) + parseInt(lose);
 
     await User.update(
-      { gold: resultGold, currentShipImage: usedship },
+      { win: resultWin, lose: resultLose },
       { where: { id: req.decoded.id } }
     );
-
-    console.log("realscore : ", realScore);
-    console.log("resultgold : ", resultGold);
-    console.log("usedship : ", usedship);
-    console.log("req.decoded.nick : ", req.decoded.nick);
-    console.log("req.decoded.id : ", req.decoded.id);
-
-    await Scoredata.create({
-      nick: req.decoded.nick,
-      score: realScore,
-      usedShip: usedship,
-      UserId: req.decoded.id,
-    });
 
     res.status(resStatus.success.code).json({
       // 200

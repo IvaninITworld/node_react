@@ -69,7 +69,7 @@ exports.joinServiceNickCheck = async (req, res, next) => {
 
 // 3. 최종 검사(email, nick) 후, User 모델에 저장
 exports.joinService = async (req, res, next) => {
-  console.log(req.body);
+  console.log("joinService req.body : ", req.body);
   const { email, nick, password } = req.body.body;
   try {
     console.log("POST /auth/join 최종 진입");
@@ -117,6 +117,7 @@ exports.loginService = async (req, res, next) => {
   try {
     const exUser = await User.findOne({ where: { email } });
     if (!exUser) {
+      console.log("the user does not exist");
       return res.status(resStatus.invalide.code).json({
         // 404
         message: resStatus.invalide.message, // login-failure

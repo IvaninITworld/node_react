@@ -4,8 +4,8 @@ import { useRef } from 'react'
 import AnimatedLetters from '../AnimatedLetters'
 import { Link } from 'react-router-dom'
 // import axios from '../../utils/axios'
-import { useDispatch } from 'react-redux'
-import { asyncUpFetchLogin } from '../../features/loginSlice'
+import { useSelector, useDispatch } from 'react-redux'
+import { asyncUpFetchLogin } from '../../features/userSlice'
 // import { login } from '../../store/actions/authActions'
 import './index.scss'
 
@@ -18,6 +18,10 @@ const Login = () => {
   const [letterClass, setLetterClass] = useState('text-animate')
   const form = useRef()
   const dispatch = useDispatch()
+
+  const { userData, isLoggedIn, token } = useSelector((state) => {
+    return state.user.value
+  })
 
   useEffect(() => {
     if (emailValid && passwordValid) {
@@ -54,7 +58,8 @@ const Login = () => {
     try {
       console.log('button clikced')
       dispatch(asyncUpFetchLogin({ email, password }))
-      // window.location.href = '/game'
+      // dispatch()
+      window.location.href = '/game'
     } catch (error) {
       alert(`Failed to log in, please try again. reason: ${error.message}`)
     }
@@ -62,8 +67,9 @@ const Login = () => {
 
   return (
     <>
-      <div className="container contact-page">
+      <div className="container login-page">
         <div className="text-zone">
+          {/* {isLoggedIn ? () : () } */}
           <h1>
             <AnimatedLetters
               letterClass={letterClass}
@@ -71,56 +77,64 @@ const Login = () => {
               idx={15}
             />
           </h1>
-          <p>Login before joing the game</p>
-
-          <div className="login-form">
-            <form ref={form} onSubmit={loginHandler}>
-              <ul>
-                <li>
-                  <input
-                    placeholder="email"
-                    type="text"
-                    name="email"
-                    required
-                    value={email}
-                    onChange={handleEmail}
-                  />
-                </li>
-                <div className="errorMessageWrap">
-                  {!emailValid && email.length > 0 && (
-                    <div>Wrong email format</div>
-                  )}
-                </div>
-                <li>
-                  <input
-                    placeholder="password"
-                    type="password"
-                    name="password"
-                    required
-                    value={password}
-                    onChange={handlePassword}
-                  />
-                </li>
-                <div className="errorMessageWrap">
-                  {!passwordValid && password.length > 0 && (
-                    <div>Wrong password format</div>
-                  )}
-                </div>
-                <div>
-                  <input
-                    type="submit"
-                    className="flat-button"
-                    value="Login"
-                    disabled={buttonDisabled}
-                  />
-                </div>
-              </ul>
-            </form>
-            {/* 아래 register 버튼은 라우팅 기능이 있는 버튼으로 */}
-            <Link to="/auth/join" className="flat-button2">
-              register
-            </Link>
-          </div>
+          {isLoggedIn ? (
+            <div>
+              <p>{userData.nick}님 안녕하세요!</p>
+              {/* <button onClick={handleLogout}>로그아웃</button> */}
+            </div>
+          ) : (
+            <>
+              <p>Login before joing the game</p>
+              <div className="login-form">
+                <form ref={form} onSubmit={loginHandler}>
+                  <ul>
+                    <li>
+                      <input
+                        placeholder="email"
+                        type="text"
+                        name="email"
+                        required
+                        value={email}
+                        onChange={handleEmail}
+                      />
+                    </li>
+                    <div className="errorMessageWrap">
+                      {!emailValid && email.length > 0 && (
+                        <div>Wrong email format</div>
+                      )}
+                    </div>
+                    <li>
+                      <input
+                        placeholder="password"
+                        type="password"
+                        name="password"
+                        required
+                        value={password}
+                        onChange={handlePassword}
+                      />
+                    </li>
+                    <div className="errorMessageWrap">
+                      {!passwordValid && password.length > 0 && (
+                        <div>Wrong password format</div>
+                      )}
+                    </div>
+                    <div>
+                      <input
+                        type="submit"
+                        className="flat-button"
+                        value="Login"
+                        disabled={buttonDisabled}
+                      />
+                    </div>
+                  </ul>
+                </form>
+                {/* 아래 register 버튼은 라우팅 기능이 있는 버튼으로 */}
+                <Link to="/auth/join" className="flat-button2">
+                  register
+                </Link>
+              </div>
+            </>
+          )}
         </div>
       </div>
       <Loader type="pacman" />
