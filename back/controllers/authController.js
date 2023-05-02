@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { resStatus } = require("../lib/responseStatus");
-const { User, Spaceship } = require("../models");
+const { User } = require("../models");
 
 // 회원가입;
 // 1. email 중복 검사

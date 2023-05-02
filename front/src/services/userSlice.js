@@ -12,6 +12,8 @@ const initialState = {
 const asyncUpFetchLogin = createAsyncThunk(
   'POST/auth/login',
   async (credentials, thunkAPI) => {
+    console.log('credentials : ', credentials)
+
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/auth/login`,
@@ -30,6 +32,7 @@ const asyncUpFetchLogin = createAsyncThunk(
 const userSlice = createSlice({
   name: 'user',
   initialState,
+  // 동기 처리
   reducers: {
     login: (state, action) => {
       console.log('안쪽??')
@@ -44,6 +47,7 @@ const userSlice = createSlice({
     },
   },
 
+  // 비동기 처리
   extraReducers: (builder) => {
     builder.addCase(asyncUpFetchLogin.pending, (state, action) => {
       state.status = 'Loading'
@@ -61,6 +65,5 @@ const userSlice = createSlice({
 })
 
 export default userSlice
-export const { login } = userSlice.actions
-export const { logout } = userSlice.actions
+export const { login, logout } = userSlice.actions
 export { asyncUpFetchLogin }
