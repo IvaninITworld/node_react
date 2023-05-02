@@ -5,7 +5,7 @@ import AnimatedLetters from '../AnimatedLetters'
 import { Link } from 'react-router-dom'
 // import axios from '../../utils/axios'
 import { useSelector, useDispatch } from 'react-redux'
-import { asyncUpFetchLogin } from '../../features/userSlice'
+import { asyncUpFetchLogin } from '../../services/userSlice'
 // import { login } from '../../store/actions/authActions'
 import './index.scss'
 
@@ -16,10 +16,11 @@ const Login = () => {
   const [passwordValid, setPasswordValid] = useState(false)
   const [buttonDisabled, setButtonDisabled] = useState(true)
   const [letterClass, setLetterClass] = useState('text-animate')
+
   const form = useRef()
   const dispatch = useDispatch()
 
-  const { userData, isLoggedIn, token } = useSelector((state) => {
+  const { userData, isLoggedIn } = useSelector((state) => {
     return state.user.value
   })
 
@@ -41,6 +42,7 @@ const Login = () => {
       setEmailValid(false)
     }
   }
+
   const handlePassword = (e) => {
     setPassword(e.target.value)
     const regex =
@@ -54,11 +56,9 @@ const Login = () => {
 
   const loginHandler = (e) => {
     e.preventDefault()
-
     try {
       console.log('button clikced')
       dispatch(asyncUpFetchLogin({ email, password }))
-      // dispatch()
       window.location.href = '/game'
     } catch (error) {
       alert(`Failed to log in, please try again. reason: ${error.message}`)

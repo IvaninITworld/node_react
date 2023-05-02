@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { io } from 'socket.io-client'
 import { Link } from 'react-router-dom'
-import { asyncUpFetchLogin } from '../../features/userSlice'
+// import { asyncUpFetchLogin } from '../../features/userSlice'
 import './index.scss'
 
 const Game = () => {
-  const [rooms, setRooms] = useState([])
+  // const [rooms, setRooms] = useState([])
   const [messages, setMessages] = useState([])
   const [socket, setSocket] = useState(null)
 
@@ -16,27 +16,13 @@ const Game = () => {
   })
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
-
-    if (isLoggedIn && token) {
-      // 사용자 정보를 서버에서 가져와 store 에 저장합니다.
-      dispatch(asyncUpFetchLogin({ token }))
-    }
-
-    console.log('token value is : ', token)
-    console.log('userData value is : ', userData)
-    console.log('isLoggedIn value is : ', isLoggedIn)
-    console.log('socket value is : ', socket)
-
-    const newSocket = io(process.env.REACT_APP_API_DOMAIN, {
-      query: { token },
-    })
+    const newSocket = io(process.env.REACT_APP_API_DOMAIN)
     setSocket(newSocket)
 
     // 방 목록을 받아와 state 업데이트
-    newSocket.on('rooms', (rooms) => {
-      setRooms(rooms || [])
-    })
+    // newSocket.on('rooms', (rooms) => {
+    //   setRooms(rooms || [])
+    // })
 
     // 채팅 내용을 받아와 state 업데이트
     newSocket.on('messages', (messages) => {
@@ -47,7 +33,7 @@ const Game = () => {
     return () => {
       newSocket.close()
     }
-  }, [dispatch, isLoggedIn, userData, socket])
+  }, [socket])
 
   return (
     <div className="game-container">
@@ -72,7 +58,7 @@ const Game = () => {
           </div>
         )}
       </div>
-      <div className="primary">
+      {/* <div className="gameRoomList">
         <div className="rooms">
           <h2>Rooms</h2>
           <ul>
@@ -81,8 +67,8 @@ const Game = () => {
             ))}
           </ul>
         </div>
-      </div>
-      <div className="secondary">
+      </div> */}
+      <div className="chatList">
         <div className="messages">
           <h2>Messages</h2>
           <ul>
