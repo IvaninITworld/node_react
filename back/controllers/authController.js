@@ -70,11 +70,12 @@ exports.joinServiceNickCheck = async (req, res, next) => {
 // 3. 최종 검사(email, nick) 후, User 모델에 저장
 exports.joinService = async (req, res, next) => {
   console.log("joinService req.body : ", req.body);
-  const { email, nick, password } = req.body.body;
+  const { email, nick, password } = req.body;
   try {
     console.log("POST /auth/join 최종 진입");
     const exUser1 = await User.findOne({ where: { email } });
     const exUser2 = await User.findOne({ where: { nick } });
+
     if (exUser1) {
       console.log("이메일 중복");
       return res.status(resStatus.duplicatedEmail.code).json({

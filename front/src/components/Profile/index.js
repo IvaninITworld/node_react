@@ -5,7 +5,7 @@ import AnimatedLetters from '../AnimatedLetters'
 import { Link } from 'react-router-dom'
 // import axios from '../../utils/axios'
 import { useDispatch } from 'react-redux'
-import { asyncUpFetchLogin } from '../../features/userSlice'
+import { asyncUpFetchLogin } from '../../services/userSlice'
 // import { login } from '../../store/actions/authActions'
 import './index.scss'
 

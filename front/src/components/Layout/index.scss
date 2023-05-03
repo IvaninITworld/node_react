@@ -107,9 +107,19 @@
     display: table-cell;
     max-height: 90%;
   }
+
   .user-info {
     position: absolute;
     left: 10%;
+    top: 10%;
+    transform: translateY(-50%);
+    width: 35%;
+    vertical-align: middle;
+  }
+
+  .chat-info {
+    position: absolute;
+    left: 50%;
     top: 10%;
     transform: translateY(-50%);
     width: 35%;

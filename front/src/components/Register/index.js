@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react'
 import Loader from 'react-loaders'
 import { useRef } from 'react'
 import AnimatedLetters from '../AnimatedLetters'
-import { Link } from 'react-router-dom'
-import axios from '../../utils/axios'
+import { useDispatch } from 'react-redux'
+// import { Link } from 'react-router-dom'
+import { asyncUpFetchRegister } from '../../services/userSlice'
 import './index.scss'
 
 const Register = () => {
@@ -15,7 +16,7 @@ const Register = () => {
   const [buttonDisabled, setButtonDisabled] = useState(true)
   const [letterClass, setLetterClass] = useState('text-animate')
   const form = useRef()
-
+  const dispatch = useDispatch()
   useEffect(() => {
     if (emailValid && passwordValid) {
       setButtonDisabled(false)
@@ -51,39 +52,49 @@ const Register = () => {
 
   const register = (e) => {
     e.preventDefault()
-    console.log('send login request')
+    console.log('send registeration request')
 
     let email = e.target.email.value
     let nick = e.target.nick.value
     let password = e.target.password.value
 
     console.log(email, nick, password)
+    try {
+      dispatch(asyncUpFetchRegister({ email, nick, password }))
+    } catch (error) {
+      console.log('error in register.js : ', error)
+      alert(`Failed to register, please try again. reason : ${error}`)
+    }
 
-    axios
-      .post(`/auth/join`, {
-        method: 'POST',
-        body: {
-          email: email,
-          nick: nick,
-          password: password,
-        },
-      })
-      .then((response) => {
-        console.log(response)
-        if (response.status === 200) {
-          window.location.href = '/auth/login'
-          console.log('성공 후', response)
-        } else {
-          alert(
-            `Failed to register, please try again. reason : ${response.data.message}`
-          )
-        }
-      })
-      .catch((error) => {
-        alert(
-          `Failed to register, please try again. reason : ${error.response.data.message}`
-        )
-      })
+    // axios
+    //   .post(`/auth/join`, {
+    //     method: 'POST',
+    //     body: {
+    //       email: email,
+    //       nick: nick,
+    //       password: password,
+    //     },
+    //   })
+    //   .then((response) => {
+    //     console.log(response)
+    //     if (response.status === 200) {
+    //       window.location.href = '/auth/login'
+    //       console.log('성공 후', response)
+    //     } else {
+    //       alert(
+    //         `Failed to register, please try again. reason : ${response.data.message}`
+    //       )
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     alert(
+    //       `Failed to register, please try again. reason : ${error.response.data.message}`
+    //     )
+    //   })
+  }
+
+  const linkToLogin = () => {
+    window.location.href = '/auth/login'
   }
 
   return (
@@ -153,9 +164,12 @@ const Register = () => {
               </ul>
             </form>
             {/* 아래 register 버튼은 라우팅 기능이 있는 버튼으로 */}
-            <Link to="/auth/login" className="flat-button2">
+            <button className="flat-button2" onClick={linkToLogin}>
+              Go to Login
+            </button>
+            {/* <Link to="/auth/login" className="flat-button2">
               Login page
-            </Link>
+            </Link> */}
           </div>
         </div>
       </div>
