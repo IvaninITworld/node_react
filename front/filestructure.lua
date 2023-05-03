@@ -30,7 +30,7 @@ frontend/
 |   |   |-- Sidebar/
 |   |   |   |-- index.js
 |   |   |   |-- index.scss
-|   |-- features/
+|   |-- services/
 |   |   |-- userSlice.js
 |   |-- store/
 |   |   |-- index.js

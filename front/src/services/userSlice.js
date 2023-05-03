@@ -19,12 +19,34 @@ const asyncUpFetchLogin = createAsyncThunk(
         `${process.env.REACT_APP_BACKEND_URL}/auth/login`,
         credentials
       )
-      console.log('로그인 이후 response : ', response.data)
+      console.log('로그인 이후 response : ', response)
       localStorage.setItem('token', response.data.token)
       return response.data
     } catch (error) {
-      console.error(error)
+      console.error('error : ', error)
       return thunkAPI.rejectWithValue(error.response.data)
+    }
+  }
+)
+
+const asyncUpFetchRegister = createAsyncThunk(
+  'POST/auth/join',
+  async (credentials, thunkAPI) => {
+    console.log('credentials : ', credentials)
+
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/auth/join`,
+        credentials
+      )
+      console.log('로그인 이후 response : ', response.data)
+      return response.data
+    } catch (error) {
+      console.error('error in userSlice : ', error)
+      alert(
+        `Failed to register, please try again. reason : ${error.response.data.message}`
+      )
+      return error.response
     }
   }
 )
@@ -44,6 +66,7 @@ const userSlice = createSlice({
       state.value.isLoggedIn = false
       state.value.userData = null
       state.value.token = null
+      localStorage.removeItem('token')
     },
   },
 
@@ -53,6 +76,7 @@ const userSlice = createSlice({
       state.status = 'Loading'
     })
     builder.addCase(asyncUpFetchLogin.fulfilled, (state, action) => {
+      console.log('동작하나 ?')
       state.value.isLoggedIn = true
       state.value.userData = action.payload.user
       state.value.token = action.payload.token
@@ -61,9 +85,19 @@ const userSlice = createSlice({
     builder.addCase(asyncUpFetchLogin.rejected, (state, action) => {
       state.status = 'fail'
     })
+    builder.addCase(asyncUpFetchRegister.pending, (state, action) => {
+      state.status = 'Loading'
+    })
+    builder.addCase(asyncUpFetchRegister.fulfilled, (state, action) => {
+      console.log('가입성공 ?')
+      state.status = 'complete'
+    })
+    builder.addCase(asyncUpFetchRegister.rejected, (state, action) => {
+      state.status = 'fail'
+    })
   },
 })
 
 export default userSlice
 export const { login, logout } = userSlice.actions
-export { asyncUpFetchLogin }
+export { asyncUpFetchLogin, asyncUpFetchRegister }

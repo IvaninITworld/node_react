@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 // import axios from '../../utils/axios'
 import { useSelector, useDispatch } from 'react-redux'
 import { asyncUpFetchLogin } from '../../services/userSlice'
-// import { login } from '../../store/actions/authActions'
+import { logout } from '../../services/userSlice'
 import './index.scss'
 
 const Login = () => {
@@ -59,31 +59,64 @@ const Login = () => {
     try {
       console.log('button clikced')
       dispatch(asyncUpFetchLogin({ email, password }))
-      window.location.href = '/game'
+      // window.location.href = '/game'
     } catch (error) {
       alert(`Failed to log in, please try again. reason: ${error.message}`)
     }
+  }
+
+  // 로그아웃
+  const handleLogout = () => {
+    dispatch(logout())
+  }
+
+  const linkToGmae = () => {
+    window.location.href = '/game'
+  }
+
+  const linkToRegister = () => {
+    window.location.href = '/auth/join'
   }
 
   return (
     <>
       <div className="container login-page">
         <div className="text-zone">
-          {/* {isLoggedIn ? () : () } */}
-          <h1>
-            <AnimatedLetters
-              letterClass={letterClass}
-              strArray={['L', 'o', 'g', 'i', 'n']}
-              idx={15}
-            />
-          </h1>
           {isLoggedIn ? (
-            <div>
-              <p>{userData.nick}님 안녕하세요!</p>
-              {/* <button onClick={handleLogout}>로그아웃</button> */}
-            </div>
+            <>
+              <h1>
+                <AnimatedLetters
+                  letterClass={letterClass}
+                  strArray={['W', 'e', 'l', 'c', 'o', 'm', 'e']}
+                  idx={15}
+                />
+              </h1>
+              <div>
+                <p>{userData.nick}님 안녕하세요!</p>
+
+                <br />
+
+                {/* <p>
+                  {userData.win} 승 {userData.lose} 패
+                </p> */}
+              </div>
+
+              <button className="flat-button2" onClick={handleLogout}>
+                Logout
+              </button>
+              <button className="flat-button2" onClick={linkToGmae}>
+                Game
+              </button>
+            </>
           ) : (
             <>
+              <h1>
+                <AnimatedLetters
+                  letterClass={letterClass}
+                  strArray={['L', 'o', 'g', 'i', 'n']}
+                  idx={15}
+                />
+              </h1>
               <p>Login before joing the game</p>
               <div className="login-form">
                 <form ref={form} onSubmit={loginHandler}>
@@ -128,10 +161,13 @@ const Login = () => {
                     </div>
                   </ul>
                 </form>
-                {/* 아래 register 버튼은 라우팅 기능이 있는 버튼으로 */}
-                <Link to="/auth/join" className="flat-button2">
+                {/* 아래  버튼은 라우팅 기능이 있는 버튼으로 */}
+                <button className="flat-button2" onClick={linkToRegister}>
+                  Register
+                </button>
+                {/* <Link to="/auth/join" className="flat-button2">
                   register
-                </Link>
+                </Link> */}
               </div>
             </>
           )}
