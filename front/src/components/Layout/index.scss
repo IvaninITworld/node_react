@@ -118,12 +118,52 @@
   }
 
   .chat-info {
-    position: absolute;
+    display: inline-block;
+    color: #ffd700;
+    background-color: #444;
+    position: relative;
+    // overflow-y: auto;
     left: 50%;
-    top: 10%;
-    transform: translateY(-50%);
+    top: 100px;
+    height: 100vh;
+    // transform: translateY(-50%);
     width: 35%;
     vertical-align: middle;
+
+    input[type='text'] {
+      width: 100%;
+      border: 0;
+      background: #363636;
+      height: 50px;
+      font-size: 16px;
+      color: #fff;
+      padding: 0 20px;
+      margin-bottom: 5px;
+      box-sizing: border-box;
+      border-radius: 0.9rem;
+    }
+
+    .flat-button {
+      color: #ffd700;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-decoration: none;
+      padding: 8px 10px;
+      border: 1px solid #ffd700;
+      float: left;
+      border-radius: 4px;
+      background: 0 0;
+      text-transform: uppercase;
+      float: right;
+      text-align: center;
+      margin-right: 10px;
+      cursor: pointer;
+
+      &:hover {
+        background: #ffd700;
+        color: #333;
+      }
+    }
   }
 
   .text-animate-hover {

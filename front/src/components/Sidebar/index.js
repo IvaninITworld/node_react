@@ -2,16 +2,16 @@ import './index.scss'
 import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
-  faLinkedin,
+  // faLinkedin,
   faGithub,
-  faYoutube,
-  faSkype,
+  // faYoutube,
+  // faSkype,
 } from '@fortawesome/free-brands-svg-icons'
 import {
   faHome,
   faUser,
   faEnvelope,
-  faSuitcase,
+  // faSuitcase,
   faBars,
   faClose,
   faGamepad,
@@ -27,6 +27,7 @@ const Sidebar = () => {
       <Link className="logo" to="/" onClick={() => setShowNav(false)}>
         <FontAwesomeIcon icon={faHome} size="3x" color="#4d4d4e" />
       </Link>
+
       <nav className={showNav ? 'mobile-show' : ''}>
         <NavLink
           exact="true"
