@@ -1,11 +1,11 @@
 import { Route, Routes } from 'react-router-dom'
-import Home from './components/Home'
 import About from './components/About'
 import Contact from './components/Contact'
+import Game from './components/Game'
+import Home from './components/Home'
 import Layout from './components/Layout'
 import Login from './components/Login'
 import Register from './components/Register'
-import Game from './components/Game'
 import './App.scss'
 
 function App() {

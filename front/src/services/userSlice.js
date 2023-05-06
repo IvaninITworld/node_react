@@ -5,6 +5,7 @@ const initialState = {
   value: {
     isLoggedIn: false,
     userData: null,
+    userRoomName: 'public',
     token: null,
   },
 }
@@ -61,11 +62,13 @@ const userSlice = createSlice({
       state.value.isLoggedIn = true
       state.value.userData = action.payload.user
       state.value.token = action.payload.token
+      state.value.userRoomName = 'public'
     },
     logout: (state, action) => {
       state.value.isLoggedIn = false
       state.value.userData = null
       state.value.token = null
+      state.value.userRoomName = 'public'
       localStorage.removeItem('token')
     },
   },
@@ -80,6 +83,7 @@ const userSlice = createSlice({
       state.value.isLoggedIn = true
       state.value.userData = action.payload.user
       state.value.token = action.payload.token
+      state.value.userRoomName = 'public'
       state.status = 'complete'
     })
     builder.addCase(asyncUpFetchLogin.rejected, (state, action) => {

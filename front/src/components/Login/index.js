@@ -93,11 +93,9 @@ const Login = () => {
               </h1>
               <div>
                 <p>{userData.nick}님 안녕하세요!</p>
-
                 <br />
-
                 {/* <p>
-                  {userData.win} 승 {userData.lose} 패
+                  {userData.win} win, {userData.lose} lose
                 </p> */}
               </div>
 
@@ -161,13 +159,9 @@ const Login = () => {
                     </div>
                   </ul>
                 </form>
-                {/* 아래  버튼은 라우팅 기능이 있는 버튼으로 */}
                 <button className="flat-button2" onClick={linkToRegister}>
                   Register
                 </button>
-                {/* <Link to="/auth/join" className="flat-button2">
-                  register
-                </Link> */}
               </div>
             </>
           )}
