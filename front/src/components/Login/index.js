@@ -7,15 +7,18 @@ import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { asyncUpFetchLogin } from '../../services/userSlice'
 import { logout } from '../../services/userSlice'
+import Modal from '../InfoBar/Modal/createRoomModal'
 import './index.scss'
 
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  // const [roomName, setRoomName] = useState('')
   const [emailValid, setEmailValid] = useState(false)
   const [passwordValid, setPasswordValid] = useState(false)
   const [buttonDisabled, setButtonDisabled] = useState(true)
   const [letterClass, setLetterClass] = useState('text-animate')
+  const [modalOpen, setModalOpen] = useState(false)
 
   const form = useRef()
   const dispatch = useDispatch()
@@ -54,16 +57,32 @@ const Login = () => {
     }
   }
 
+  const openModal = () => {
+    setModalOpen(true)
+  }
+
+  const closeModal = () => {
+    setModalOpen(false)
+  }
+
   const loginHandler = (e) => {
     e.preventDefault()
     try {
       console.log('button clikced')
       dispatch(asyncUpFetchLogin({ email, password }))
-      // window.location.href = '/game'
     } catch (error) {
       alert(`Failed to log in, please try again. reason: ${error.message}`)
     }
   }
+
+  // const createRoom = (e) => {
+  //   e.preventDefault()
+
+  //   if (roomName.length > 0 && roomName !== 'public') {
+  //     window.location.href = `/gameplay?roomName=${roomName}`
+  //   }
+  //   setModalOpen(false)
+  // }
 
   // 로그아웃
   const handleLogout = () => {
@@ -102,9 +121,15 @@ const Login = () => {
               <button className="flat-button2" onClick={handleLogout}>
                 Logout
               </button>
-              <button className="flat-button2" onClick={linkToGmae}>
-                Game
+              <button className="flat-button2" onClick={openModal}>
+                Create Room
               </button>
+              <Modal
+                open={modalOpen}
+                close={closeModal}
+                header="Create a Game"
+                // createRoom={createRoom}
+              ></Modal>
             </>
           ) : (
             <>
@@ -159,9 +184,11 @@ const Login = () => {
                     </div>
                   </ul>
                 </form>
-                <button className="flat-button2" onClick={linkToRegister}>
-                  Register
-                </button>
+                <div>
+                  <button className="flat-button2" onClick={linkToRegister}>
+                    Register
+                  </button>
+                </div>
               </div>
             </>
           )}

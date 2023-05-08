@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, Router } from 'react-router-dom'
 import About from './components/About'
 import Contact from './components/Contact'
 import Game from './components/Game'
@@ -6,6 +6,7 @@ import Home from './components/Home'
 import Layout from './components/Layout'
 import Login from './components/Login'
 import Register from './components/Register'
+import GamePlay from './components/GamePlay'
 import './App.scss'
 
 function App() {
@@ -19,8 +20,12 @@ function App() {
           <Route path="/auth/login" element={<Login />} />
           <Route path="/auth/join" element={<Register />} />
           <Route path="/game" element={<Game />} />
+          <Route path="/gameplay" element={<GamePlay />} />
         </Route>
       </Routes>
+      {/* <Router>
+        <Route path="/gameplay" component={GamePlay} />
+      </Router> */}
     </>
   )
 }
