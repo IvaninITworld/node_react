@@ -10,10 +10,11 @@ const corsConfig = require("./config/corsConfig");
 app.use(cors(corsConfig));
 
 const socketio = require("socket.io");
+
 const wsServer = socketio(server, {
   cors: corsConfig,
   allowEIO3: true,
-  transport: ["websocket"],
+  transport: ["websocket", "polling"],
 });
 
 const bodyParser = require("body-parser");
@@ -67,10 +68,13 @@ if (process.env.NODE_ENV === "development") {
 app.use("/auth", authRouter);
 app.use("/game", gameRouter);
 
-const { addUser, removeUser, getUser, getUsersInRoom } = require("./users");
-
-let publicRoomList = [];
-let publicMessages = [];
+const {
+  addUser,
+  removeUser,
+  getUser,
+  getUsersInuserRoomName,
+  users,
+} = require("./users");
 
 wsServer.on("connection", (socket) => {
   console.log("Have a connection from browser - skocket.id : ", socket.id);
@@ -84,186 +88,74 @@ wsServer.on("connection", (socket) => {
 
   let currentTime = `${hour}:${minute}`;
 
-  socket.on("join", ({ userData, userRoomName }, callback) => {
-    socket.join(userRoomName);
+  socket.on("join", ({ userData, roomName }, callback) => {
+    console.log("join 으로 유저가 보냄 : ", userData.nick, roomName);
+    const { error, user } = addUser({
+      id: socket.id,
+      nick: userData.nick,
+      roomName,
+    });
+    if (error) return callback(error);
+
+    socket.join(roomName);
 
     let newMessage = {
       time: currentTime,
       user: "admin",
-      message: `${userData.nick} has joined!`,
+      message: `${user.nick} has joined!`,
     };
 
-    publicMessages.push(newMessage);
+    socket.broadcast.to(roomName).emit("message", { newMessage });
 
-    socket.broadcast.to("public").emit("messages", { publicMessages });
+    console.log("users info : ", getUsersInuserRoomName(roomName));
+
+    wsServer.to(roomName).emit("roomData", {
+      room: roomName,
+      users: getUsersInuserRoomName(roomName),
+    });
 
     callback();
   });
 
-  socket.on("sendMessage", ({ message, userData, userRoomName }, callback) => {
+  socket.on("sendMessage", (message, callback) => {
+    console.log("socket info : ", socket.id);
+    console.log("users : ", users);
+    console.log("message : ", message);
+    const user = getUser(socket.id);
+    console.log("메세지를 보낸 유저 정보 : ", user);
+
     let newMessage = {
       time: currentTime,
-      user: userData.nick,
+      user: user.nick,
       message: `${message}`,
     };
-
-    publicMessages.push(newMessage);
-    socket.to(userRoomName).emit("messages", { publicMessages });
+    // publicMessages.push(newMessage);
+    socket.to(user.roomName).emit("message", { newMessage });
 
     callback();
   });
-
-  //방 목록 반환
-  socket.on("room_list", () => {
-    socket.emit("room_list", publicRoomList);
-  });
-
-  // //방 만들기
-  socket.on("create_room", ({ roomName, userData }, done) => {
-    console.log(`Socket ${userData.nick} is creating room ${roomName}.`);
-
-    //Socket은 ID와 같은 Room을 Default로 갖고 있음 (따라서, 기본적으로 socket.rooms.size == 1, 따라서 방을 만들기도 전에 1 초과라는 것은 이 사용자가 다른 방에 참가하고 있다는 뜻이다.)
-    if (socket.rooms.size > 1) {
-      console.log(`socket ${socket.id} is already in room.`);
-      console.log(socket.rooms);
-
-      socket.emit("error", "이미 다른 방에 참가중입니다.");
-      return;
-    }
-
-    // 동일한 방이 존재할 경우
-    if (wsServer.sockets.adapter.rooms.get(roomName)) {
-      console.log(`Room name ${roomName} already exists.`);
-      socket.emit("error", "동일한 방이 이미 존재합니다.");
-      return;
-    }
-
-    const roomInfo = {
-      roomName,
-      blackPlayer: "",
-      whitePlayer: "",
-      takes: [],
-    };
-
-    publicRoomList.push(roomInfo);
-    wsServer.sockets.emit("room_list", publicRoomList);
-    console.log("###");
-    enterRoom(socket, name);
-    console.log(`Socket ${socket.id} is entering room ${name}.`);
-    socket.join(name);
-    done();
-    socket.emit("room_enter", name);
-    wsServer.to(name).emit("message", `${socket.id} 님이 입장하셨습니다.`);
-  });
-
-  // //기존 방 참가
-  // socket.on("room_enter", (name) => {
-  //   console.log("name : ", name);
-  //   if (socket.rooms.size > 1) {
-  //     console.log(`socket ${socket.id} is already in room.`);
-  //     console.log("socket.rooms", socket.rooms);
-  //     socket.emit("error", "이미 다른 방에 참가중입니다.");
-  //     return;
-  //   }
-  //   console.log(`Socket ${socket.id} is entering room ${name}.`);
-  //   socket.join(name);
-  //   wsServer
-  //     .to(name)
-  //     .emit("welcome_message", `${socket.id} 님이 입장하셨습니다.`);
-  // });
-
-  // // 게임 test
-  // socket.on("playGame", (message, socketID) => {
-  //   console.log("message:", message, socketID);
-  //   socket.broadcast.emit("playGame", message);
-  //   // wsServer.emit("playGame",message)
-  // });
-
-  // //
-  // socket.on("gameStatus", (history, board, roomName) => {
-  //   console.log("history : ", history, board, roomName);
-  //   // socket.to()
-  // });
-
-  // //
-  // socket.on("sendingBoard", (board) => {
-  //   console.log("sendingBoard", board.sendingBoard);
-  //   console.log("roomName", board.roomName);
-  //   console.log("lastStone", board.lastStone);
-  //   console.log("count", board.count);
-  //   socket
-  //     .to(board.roomName)
-  //     .emit(
-  //       "sendingBoard",
-  //       board.sendingBoard,
-  //       board.roomName,
-  //       board.lastStone,
-  //       board.count
-  //     );
-  // });
-
-  // // // 방 나가기
-  // // // socket.on("room_leave", () => {
-  // // //   const name = Array.from(socket.rooms)[1];
-  // // //   console.log(`Socket ${socket.id} is leaving room ${name}.`);
-
-  // // //   if (name != undefined) {
-  // // //     //현재 Disconnect 하는 Socket이 해당 방의 마지막 소켓일 경우 방 제거
-  // // //     if (wsServer.sockets.adapter.rooms.get(name).size == 1) {
-  // // //       console.log(`Remove room ${name}`);
-  // // //       publicRoomList = publicRoomList.filter((value) => value.name != name);
-  // // //       wsServer.sockets.emit("room_list", publicRoomList);
-  // // //     } else {
-  // // //       const room = getPublicRoomListpublicRoomList(name);
-  // // //       if (room.blackPlayer === socket.id) {
-  // // //         room.blackPlayer = "";
-  // // //         emitPlayerChange(room);
-  // // //       } else if (room.whitePlayer === socket.id) {
-  // // //         room.whitePlayer = "";
-  // // //         emitPlayerChange(room);
-  // // //       }
-
-  // // //       wsServer.to(name).emit("message", `${socket.id} 님이 퇴장하셨습니다.`);
-  // // //     }
-  // // //     socket.leave(name);
-  // // //   }
-
-  // // //   socket.emit("room_leave");
-  // // // });
-
-  // // // 참가자가 방을 나가는 중  // the Set contains at least the socket ID
-  // // // Fired when the client is going to be disconnected (but hasn't left its rooms yet).
-  // // socket.on("disconnecting", () => {
-  // //   // console.log("###socket.room### : ", socket);
-  // //   socket.rooms.forEach((room) =>
-  // //     socket.to(room).emit("bye", socket.nickname, countRoom(room) - 1)
-  // //   );
-  // // });
-
-  // error 처리
-  socket.on("connect_error", (err) => {
-    console.log(`connect_error due to ${err.message}`);
-  });
-
-  // socket.on("enter_room", (roomName, done) => {
-  //   // console.log("roomName : ", roomName);
-  //   socket.join(roomName);
-  //   done();
-  //   socket.to(roomName).emit("welcome");
-  // });
 
   // User had left
   socket.on("disconnect", () => {
-    // socket.to(userRoomName).emit("message", "User had left");
+    const user = removeUser(socket.id);
+    if (user) {
+      console.log("disconect user info", user);
+
+      let newMessage = {
+        time: currentTime,
+        user: "Admin",
+        message: `${user.nick} has left.`,
+      };
+
+      wsServer.to(user.roomName).emit("message", { newMessage });
+
+      wsServer.to(user.roomName).emit("roomData", {
+        room: user.roomName,
+        users: getUsersInuserRoomName(user.roomName),
+      });
+    }
     console.log("User had left");
   });
-
-  // socket.on("new_message", (message, roomName, done) => {
-  //   socket.to(roomName).emit("new_message", message); // emit한 socket을 제외하고 해당 roomName의 room에 있는 나머지 socket들에게 emit.
-  //   done(message);
-  // });
-
-  console.log("wsSocket : ");
 });
 
 app.use((req, res, next) => {

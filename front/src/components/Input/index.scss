@@ -1,0 +1,63 @@
+.messageInput {
+  position: absolute;
+  z-index: 99999999999;
+  width: 90%;
+  top: 570px;
+
+  input[type='text'] {
+    display: inline-block;
+    width: 100%;
+    border: 0;
+    background: #363636;
+    height: 30px;
+    font-size: 16px;
+    color: #fff;
+    padding: 10px 10px 10px 10px;
+    margin: 10px 10px 10px 10px;
+    box-sizing: border-box;
+  }
+
+  .flat-button {
+    color: #ffd700;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-decoration: none;
+    padding: 8px 10px;
+    border: 1px solid #ffd700;
+    float: left;
+    border-radius: 4px;
+    background: 0 0;
+    text-transform: uppercase;
+    float: right;
+    text-align: center;
+    margin-right: 10px;
+  }
+}
+
+// .form {
+//   display: absolute;
+//   border-top: 2px solid #d3d3d3;
+//   width: 100%;
+//   border: 0;
+//   background: #363636;
+//   height: 50px;
+//   font-size: 16px;
+//   color: #fff;
+//   padding: 20px;
+//   box-sizing: border-box;
+//   min-height: 150px;
+// }
+
+// .input {
+//   border: none;
+//   border-radius: 0;
+//   padding: 5%;
+//   width: 80%;
+//   font-size: 1.2em;
+// }
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+}

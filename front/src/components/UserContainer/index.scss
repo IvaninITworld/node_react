@@ -1,0 +1,54 @@
+.userContainer {
+  display: absolute;
+  flex-direction: column;
+  margin-left: 150px;
+  margin-top: 50px;
+
+  color: white;
+  height: 30%;
+  justify-content: space-between;
+}
+
+.activeContainer {
+  position: fixed;
+  background: #363636;
+  top: 10%;
+  left: 70%;
+  z-index: 999999;
+  width: 200px;
+  padding: 20px;
+  color: #fff;
+  font-family: 'Helvetica';
+  font-size: 12px;
+  font-weight: 200;
+  opacity: 0;
+  animation: fadeIn 1s 1.5s;
+  animation-fill-mode: forwards;
+
+  span {
+    font-size: 16px;
+
+    span {
+      color: #ffd700;
+    }
+  }
+}
+
+.activeItem {
+  display: flex;
+  align-items: center;
+}
+
+.activeContainer img {
+  padding-left: 10px;
+}
+
+.textContainer h1 {
+  margin-bottom: 0px;
+}
+
+@media (min-width: 320px) and (max-width: 1200px) {
+  .userContainer {
+    display: none;
+  }
+}

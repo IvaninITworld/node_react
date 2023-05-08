@@ -73,7 +73,7 @@ const Sidebar = () => {
           </div>
         </NavLink>
 
-        <NavLink
+        {/* <NavLink
           activeclassname="active"
           className="game-link"
           to="/game"
@@ -82,7 +82,7 @@ const Sidebar = () => {
           <div className="linkBox">
             <FontAwesomeIcon icon={faGamepad} color="#4d4d4e" />
           </div>
-        </NavLink>
+        </NavLink> */}
 
         <FontAwesomeIcon
           onClick={() => {

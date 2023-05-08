@@ -2,16 +2,17 @@ import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { logout } from '../../services/userSlice'
 import { useRef } from 'react'
+import AnimatedLetters from '../AnimatedLetters'
 import Modal from './Modal/createRoomModal'
 import './index.scss'
 
 const InfoBar = () => {
   const [roomName, setRoomName] = useState('')
   //   const [roomPassword, setRoomPassword] = useState('')
-  const [socket, setSocket] = useState(null)
   const [modalOpen, setModalOpen] = useState(false)
   const [roomNameValid, setRoomNameValid] = useState(false)
   const [buttonDisabled, setButtonDisabled] = useState(true)
+  const [letterClass, setLetterClass] = useState('text-animate')
 
   const roomCreate = useRef()
   const dispatch = useDispatch()
@@ -39,17 +40,10 @@ const InfoBar = () => {
     setModalOpen(false)
     setRoomName('')
     setRoomNameValid(false)
-    // setRoomPassword('')
   }
 
   const createRoom = (e) => {
     e.preventDefault()
-
-    // socket.emit('create_room', { roomName, userData }, (error) => {
-    //   if (error) {
-    //     alert(error)
-    //   }
-    // })
 
     if (roomName.length > 0 && roomName !== 'public') {
       window.location.href = `/gameplay?roomName=${roomName}`
@@ -75,7 +69,14 @@ const InfoBar = () => {
     <>
       {isLoggedIn ? (
         <>
-          <div>
+          <div className="infoBar">
+            <h1>
+              <AnimatedLetters
+                letterClass={letterClass}
+                strArray={['W', 'e', 'l', 'c', 'o', 'm', 'e']}
+                idx={15}
+              />
+            </h1>
             <p>{userData.nick}님 안녕하세요!</p>
             <button className="flat-button2" onClick={handleLogout}>
               Logout
@@ -87,9 +88,9 @@ const InfoBar = () => {
               open={modalOpen}
               close={closeModal}
               header="Create a Game"
-              createRoom={createRoom}
+              // createRoom={createRoom}
             >
-              {/* Modal.js <main> {props.children} </main>에 내용이 입력된다. */}
+              {/* Modal.js <main> {props.children} </main>에 내용이 입력된다.
               Room info
               <br />
               <form ref={roomCreate} onSubmit={createRoom}>
@@ -104,15 +105,6 @@ const InfoBar = () => {
                       onChange={handleRoomName}
                     />
                   </li>
-                  {/* <li className="half">
-                    <input
-                      placeholder="Room Password"
-                      type="password"
-                      name="roomPassword"
-                      value={roomPassword}
-                      onChange={handleRoomPassword}
-                    />
-                  </li> */}
                   <div>
                     <input
                       type="submit"
@@ -122,12 +114,12 @@ const InfoBar = () => {
                     />
                   </div>
                 </ul>
-              </form>
+              </form> */}
             </Modal>
           </div>
         </>
       ) : (
-        <div>
+        <div className="infoBar">
           <p>로그인이 필요합니다.</p>
           <button className="flat-button2" onClick={linkToLogin}>
             Go to Login
