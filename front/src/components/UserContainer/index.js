@@ -11,12 +11,7 @@ const UserContainer = ({ users, roomName }) => (
           💬
         </span>
       </h1>
-      <h2>
-        Created with React, Express, Node and Socket.IO{' '}
-        <span role="img" aria-label="emoji">
-          ❤️
-        </span>
-      </h2>
+      <h2>Created with React, Express, Node and Socket.IO</h2>
     </div>
     {users ? (
       <div>

@@ -13,7 +13,6 @@ import './index.scss'
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  // const [roomName, setRoomName] = useState('')
   const [emailValid, setEmailValid] = useState(false)
   const [passwordValid, setPasswordValid] = useState(false)
   const [buttonDisabled, setButtonDisabled] = useState(true)
@@ -75,15 +74,6 @@ const Login = () => {
     }
   }
 
-  // const createRoom = (e) => {
-  //   e.preventDefault()
-
-  //   if (roomName.length > 0 && roomName !== 'public') {
-  //     window.location.href = `/gameplay?roomName=${roomName}`
-  //   }
-  //   setModalOpen(false)
-  // }
-
   // 로그아웃
   const handleLogout = () => {
     dispatch(logout())
@@ -111,18 +101,16 @@ const Login = () => {
                 />
               </h1>
               <div>
-                <p>{userData.nick}님 안녕하세요!</p>
+                <p>Welcome, {userData.nick} !!</p>
                 <br />
-                {/* <p>
-                  {userData.win} win, {userData.lose} lose
-                </p> */}
+                <p>You can join a realtime chat room via room name!</p>
               </div>
 
               <button className="flat-button2" onClick={handleLogout}>
                 Logout
               </button>
               <button className="flat-button2" onClick={openModal}>
-                Create Room
+                Join Room
               </button>
               <Modal
                 open={modalOpen}

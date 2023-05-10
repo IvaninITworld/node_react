@@ -23,5 +23,3 @@ root.render(
     </Provider>
   </React.StrictMode>
 )
-
-export { socket } from './socket'
