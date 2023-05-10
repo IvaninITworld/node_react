@@ -28,12 +28,6 @@ const GamePlay = () => {
 
   useEffect(() => {
     const { roomName } = queryString.parse(location.search)
-    console.log(
-      '접속한 유저의 정보 - roomName : ',
-      roomName,
-      '  User Data : ',
-      userData
-    )
 
     socket = io(ENDPOINT)
 
@@ -45,10 +39,15 @@ const GamePlay = () => {
         alert(error)
       }
     })
+
+    return () => {
+      socket.disconnect()
+    }
   }, [ENDPOINT, location.roomName])
 
   useEffect(() => {
     socket.on('message', (message) => {
+      console.log('message 안쪽 콘솔 : ', message)
       setMessages((messages) => [...messages, message])
     })
 
@@ -68,7 +67,6 @@ const GamePlay = () => {
   return (
     <div className="container gameplay-page">
       <div className="text-zone">
-        {/* <InfoBar room={roomName} /> */}
         <div className="Message">
           <Messages messages={messages} nick={userData.nick} />
         </div>

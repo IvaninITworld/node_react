@@ -12,10 +12,19 @@ frontend/
 |   |   |-- Contact/
 |   |   |   |-- index.js
 |   |   |   |-- index.scss
-|   |   |-- Game/
+|   |   |-- GamePlay/
 |   |   |   |-- index.js
 |   |   |   |-- index.scss
 |   |   |-- Home/
+|   |   |   |-- index.js
+|   |   |   |-- index.scss
+|   |   |-- InfoBar/
+|   |   |   |-- Modal/
+|   |   |   |   |-- createRoomModal.js
+|   |   |   |   |-- createRoomModal.scss
+|   |   |   |-- index.js
+|   |   |   |-- index.scss
+|   |   |-- Input/
 |   |   |   |-- index.js
 |   |   |   |-- index.scss
 |   |   |-- Layout/
@@ -24,10 +33,19 @@ frontend/
 |   |   |-- Login/
 |   |   |   |-- index.js
 |   |   |   |-- index.scss
+|   |   |-- Messages/
+|   |   |   |-- Message/
+|   |   |   |   |-- index.js
+|   |   |   |   |-- index.scss
+|   |   |   |-- index.js
+|   |   |   |-- index.scss
 |   |   |-- Register/
 |   |   |   |-- index.js
 |   |   |   |-- index.scss
 |   |   |-- Sidebar/
+|   |   |   |-- index.js
+|   |   |   |-- index.scss
+|   |   |-- UserContainer/
 |   |   |   |-- index.js
 |   |   |   |-- index.scss
 |   |-- services/

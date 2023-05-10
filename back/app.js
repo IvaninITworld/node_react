@@ -105,6 +105,7 @@ wsServer.on("connection", (socket) => {
       message: `${user.nick} has joined!`,
     };
 
+    socket.emit("message", { newMessage });
     socket.broadcast.to(roomName).emit("message", { newMessage });
 
     console.log("users info : ", getUsersInuserRoomName(roomName));
@@ -118,11 +119,7 @@ wsServer.on("connection", (socket) => {
   });
 
   socket.on("sendMessage", (message, callback) => {
-    console.log("socket info : ", socket.id);
-    console.log("users : ", users);
-    console.log("message : ", message);
     const user = getUser(socket.id);
-    console.log("메세지를 보낸 유저 정보 : ", user);
 
     let newMessage = {
       time: currentTime,
@@ -130,7 +127,7 @@ wsServer.on("connection", (socket) => {
       message: `${message}`,
     };
     // publicMessages.push(newMessage);
-    socket.to(user.roomName).emit("message", { newMessage });
+    wsServer.to(user.roomName).emit("message", { newMessage });
 
     callback();
   });
@@ -138,6 +135,7 @@ wsServer.on("connection", (socket) => {
   // User had left
   socket.on("disconnect", () => {
     const user = removeUser(socket.id);
+
     if (user) {
       console.log("disconect user info", user);
 

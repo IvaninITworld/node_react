@@ -1,7 +1,6 @@
 import { Route, Routes, Router } from 'react-router-dom'
 import About from './components/About'
 import Contact from './components/Contact'
-import Game from './components/Game'
 import Home from './components/Home'
 import Layout from './components/Layout'
 import Login from './components/Login'
@@ -19,7 +18,6 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/auth/login" element={<Login />} />
           <Route path="/auth/join" element={<Register />} />
-          <Route path="/game" element={<Game />} />
           <Route path="/gameplay" element={<GamePlay />} />
         </Route>
       </Routes>
