@@ -30,7 +30,6 @@ const gameRouter = require("./routes/game");
 const { sequelize } = require("./models");
 
 dotenv.config({ path: "./config/.env" });
-// dotenv.config({ path: "./config/corsConfig" });
 
 const PORT = process.env.PORT;
 app.set("port", PORT);
@@ -157,7 +156,9 @@ wsServer.on("connection", (socket) => {
 });
 
 app.use((req, res, next) => {
-  const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
+  const error = new Error(
+    `${req.method} ${req.url}, There is no router for it.`
+  );
   error.status = 404;
   next(error);
 });

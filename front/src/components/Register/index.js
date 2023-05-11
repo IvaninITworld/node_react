@@ -17,6 +17,7 @@ const Register = () => {
   const [letterClass, setLetterClass] = useState('text-animate')
   const form = useRef()
   const dispatch = useDispatch()
+
   useEffect(() => {
     if (emailValid && passwordValid) {
       setButtonDisabled(false)
@@ -61,36 +62,11 @@ const Register = () => {
     console.log(email, nick, password)
     try {
       dispatch(asyncUpFetchRegister({ email, nick, password }))
+      window.location.href = '/auth/login'
     } catch (error) {
       console.log('error in register.js : ', error)
-      alert(`Failed to register, please try again. reason : ${error}`)
+      alert(`Failed to register, please try again. reason : ${error.message}`)
     }
-
-    // axios
-    //   .post(`/auth/join`, {
-    //     method: 'POST',
-    //     body: {
-    //       email: email,
-    //       nick: nick,
-    //       password: password,
-    //     },
-    //   })
-    //   .then((response) => {
-    //     console.log(response)
-    //     if (response.status === 200) {
-    //       window.location.href = '/auth/login'
-    //       console.log('성공 후', response)
-    //     } else {
-    //       alert(
-    //         `Failed to register, please try again. reason : ${response.data.message}`
-    //       )
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     alert(
-    //       `Failed to register, please try again. reason : ${error.response.data.message}`
-    //     )
-    //   })
   }
 
   const linkToLogin = () => {
@@ -167,9 +143,6 @@ const Register = () => {
             <button className="flat-button2" onClick={linkToLogin}>
               Go to Login
             </button>
-            {/* <Link to="/auth/login" className="flat-button2">
-              Login page
-            </Link> */}
           </div>
         </div>
       </div>
