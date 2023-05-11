@@ -20,8 +20,8 @@ The project is a real-time chat application built using React, Node.js, Express,
 Technologies Used:
 
 Frontend: React, Redux, Socket.IO Client, HTML, CSS/SCSS <br />
-Backend: Node.js, Express, Socket.IO, JWT
-Database: MySQL, Sequelize
+Backend: Node.js, Express, Socket.IO, JWT <br />
+Database: MySQL, Sequelize <br />
 
 
 This project demonstrates the use of React, Node.js, and Socket.IO to build a real-time chat application. It can be further enhanced by adding additional features such as file sharing, emoji support, or message encryption.
