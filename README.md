@@ -7,17 +7,14 @@ Youtube Video (Introduction)
 This repositoy is for my CS50 final project.
 The project is a real-time chat application built using React, Node.js, Express, and Socket.IO. It allows users to join chat rooms, exchange messages in real-time, and interact with other users.
 
-1. 
-User Authentication: Users can create accounts, log in, and log out of the application. Authentication is implemented using JWT (JSON Web Tokens) for secure user sessions.
 
-2.
-Chat Rooms: Users can join different chat rooms based on their own information.
+1. User Authentication: Users can create accounts, log in, and log out of the application. Authentication is implemented using JWT (JSON Web Tokens) for secure user sessions.
 
-3.
-Real-time Communication: The application utilizes Socket.IO, a real-time communication library, to enable instant messaging between users. Messages are sent and received in real-time, providing a seamless chatting experience.
+2. Chat Rooms: Users can join different chat rooms based on their own information.
 
-4.
-User Presence: The application displays the list of users currently present in each chat room. Users can see who else is online and actively participating in the conversation.
+3. Real-time Communication: The application utilizes Socket.IO, a real-time communication library, to enable instant messaging between users. Messages are sent and received in real-time, providing a seamless chatting experience.
+
+4. User Presence: The application displays the list of users currently present in each chat room. Users can see who else is online and actively participating in the conversation.
 
 
 Technologies Used:
