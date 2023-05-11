@@ -21,9 +21,6 @@ function App() {
           <Route path="/gameplay" element={<GamePlay />} />
         </Route>
       </Routes>
-      {/* <Router>
-        <Route path="/gameplay" component={GamePlay} />
-      </Router> */}
     </>
   )
 }

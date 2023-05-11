@@ -47,7 +47,7 @@ const asyncUpFetchRegister = createAsyncThunk(
       alert(
         `Failed to register, please try again. reason : ${error.response.data.message}`
       )
-      return error.response
+      return thunkAPI.rejectWithValue(error.response.data)
     }
   }
 )
@@ -79,7 +79,6 @@ const userSlice = createSlice({
       state.status = 'Loading'
     })
     builder.addCase(asyncUpFetchLogin.fulfilled, (state, action) => {
-      console.log('동작하나 ?')
       state.value.isLoggedIn = true
       state.value.userData = action.payload.user
       state.value.token = action.payload.token
@@ -93,7 +92,6 @@ const userSlice = createSlice({
       state.status = 'Loading'
     })
     builder.addCase(asyncUpFetchRegister.fulfilled, (state, action) => {
-      console.log('가입성공 ?')
       state.status = 'complete'
     })
     builder.addCase(asyncUpFetchRegister.rejected, (state, action) => {
