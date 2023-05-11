@@ -19,7 +19,7 @@ The project is a real-time chat application built using React, Node.js, Express,
 
 Technologies Used:
 
-Frontend: React, Redux, Socket.IO Client, HTML, CSS/SCSS
+Frontend: React, Redux, Socket.IO Client, HTML, CSS/SCSS <br />
 Backend: Node.js, Express, Socket.IO, JWT
 Database: MySQL, Sequelize
 
