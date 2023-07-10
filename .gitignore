@@ -4,6 +4,7 @@
 ### macOS ###
 # General
 .idea
+/.idea
 .DS_Store
 .AppleDouble
 .LSOverride
